@@ -11,7 +11,7 @@ struct ContentView: View {
     //read only computed property
     //opaque types, the reverse of generic types
     var body: some View {
-        return HStack {
+         HStack {
             ForEach(0..<4) {index in
                 ZStack {
                     CardView(isFaceUp: false)
@@ -25,7 +25,6 @@ struct ContentView: View {
 }
 
 struct CardView: View {
-    
     var isFaceUp: Bool
     
     var body: some View {
@@ -34,7 +33,7 @@ struct CardView: View {
                 RoundedRectangle(cornerRadius: 10).fill(Color.white)
                 RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 3.0)
                 Text("👻")
-            }else{
+            } else {
                 RoundedRectangle(cornerRadius: 10).fill()
             }
         }
