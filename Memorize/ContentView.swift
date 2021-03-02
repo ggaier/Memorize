@@ -23,7 +23,6 @@ struct ContentView: View {
         }
             .foregroundColor(Color.orange)
             .padding()
-            .font(Font.largeTitle)
     }
 }
 
@@ -31,7 +30,13 @@ struct CardView: View {
     var card: MemorizeGameModel<String>.Card
 
     var body: some View {
-        ZStack {
+        GeometryReader { geometry in
+            body(for: min(geometry.size.width, geometry.size.height) * 0.75)
+        }
+    }
+
+    private func body(for size: CGFloat) -> some View {
+        return ZStack {
             if card.isFaceUp {
                 RoundedRectangle(cornerRadius: 10).fill(Color.white)
                 RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 3.0)
@@ -39,7 +44,8 @@ struct CardView: View {
             } else {
                 RoundedRectangle(cornerRadius: 10).fill()
             }
-        }
+        }.font(Font.system(size: size))
+
     }
 }
 
