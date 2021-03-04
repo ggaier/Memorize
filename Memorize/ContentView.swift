@@ -35,14 +35,17 @@ struct CardView: View {
 
     private func body(for size: CGFloat) -> some View {
         return ZStack {
-            if card.isFaceUp {
-                RoundedRectangle(cornerRadius: 10).fill(Color.white)
-                RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 3.0)
-                Text(card.content)
-            } else {
-                RoundedRectangle(cornerRadius: 10).fill()
+            if !card.isMatched {
+                if card.isFaceUp {
+                    RoundedRectangle(cornerRadius: 10).fill(Color.white)
+                    RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 3.0)
+                    Text(card.content)
+                } else {
+                    RoundedRectangle(cornerRadius: 10).fill()
+                }
             }
         }.font(Font.system(size: size))
+            .padding(5)
 
     }
 }
