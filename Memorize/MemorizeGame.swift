@@ -8,8 +8,8 @@
 import Foundation
 
 struct MemorizeGameModel<CardContent> where CardContent: Equatable {
-    var cards: Array<Card>
-    var choosedOnlyCardIndex: Int? {
+    private(set) var cards: Array<Card>
+    private var choosedOnlyCardIndex: Int? {
         get {
             cards.indices.filter { cards[$0].isFaceUp == true }.only
         }

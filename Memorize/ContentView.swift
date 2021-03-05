@@ -15,11 +15,9 @@ struct ContentView: View {
     //opaque types, the reverse of generic types
     var body: some View {
         GridView(viewModel.cards) { card in
-            CardView(card: card).onTapGesture {
-                viewModel.choose(card: card)
-            }
-        }
-            .foregroundColor(Color.orange)
+            CardView(card: card).onTapGesture { viewModel.choose(card: card) }
+                .padding(5)
+        }.foregroundColor(Color.orange)
             .padding()
     }
 }
@@ -28,30 +26,33 @@ struct CardView: View {
     var card: MemorizeGameModel<String>.Card
 
     var body: some View {
-        GeometryReader { geometry in
-            body(for: min(geometry.size.width, geometry.size.height) * 0.75)
+        GeometryReader { geometry in body(for: geometry.size) }
+    }
+
+    @ViewBuilder
+    private func body(for size: CGSize) -> some View {
+        if card.isFaceUp || !card.isMatched {
+            ZStack {
+                Pie(startAngle: Angle.degrees(0 - 90),
+                    endAngle: Angle.degrees(110 - 90),
+                    clockwise: true)
+                    .padding(5)
+                    .opacity(0.4)
+                Text(card.content)
+                    .font(Font.system(size: fontSize(for: size)))
+            }.cardify(isFaceUp: card.isFaceUp)
         }
     }
 
-    private func body(for size: CGFloat) -> some View {
-        return ZStack {
-            if !card.isMatched {
-                if card.isFaceUp {
-                    RoundedRectangle(cornerRadius: 10).fill(Color.white)
-                    RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 3.0)
-                    Text(card.content)
-                } else {
-                    RoundedRectangle(cornerRadius: 10).fill()
-                }
-            }
-        }.font(Font.system(size: size))
-            .padding(5)
-
+    private func fontSize(for size: CGSize) -> CGFloat {
+        return min(size.width, size.height) * 0.7
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(viewModel: MemorizeViewModel())
+        let vm = MemorizeViewModel()
+        vm.choose(card: vm.cards[0])
+        return ContentView(viewModel: vm)
     }
 }
