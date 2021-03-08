@@ -26,4 +26,8 @@ class MemorizeViewModel : ObservableObject{
     func choose(card: MemorizeGameModel<String>.Card) {
         model.chooseCard(card: card)
     }
+    
+    func resetGame(){
+        model = MemorizeViewModel.createMemorizeGameModel()
+    }
 }
